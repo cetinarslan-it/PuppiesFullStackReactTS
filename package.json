@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile": "tsc *.ts --outDir js",
+    "compile": "tsc server.ts app.ts --outDir js",
     "compile:watch": "npm run compile -- --watch *.ts",
     "test": "jest --watch --silent"
   },

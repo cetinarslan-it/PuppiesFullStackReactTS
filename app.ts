@@ -4,6 +4,7 @@ import { readFile, writeFile } from 'fs/promises';
 
 
 const app: Application = express();
+
 app.use(express.json());
 
 interface tsPuppy  {
@@ -39,6 +40,47 @@ app.get('/api/puppie/:id', async (_req: Request, res: Response) => {
     });
   }
   return res.status(200).json(puppy);
+});
+
+app.post('/api/puppies', async (_req: Request, res: Response) => {
+  const data = await readFileData('../puppies.json');
+  const newId = data.length + 1;
+  const newPuppy: tsPuppy = {
+    id: newId,
+    name: _req.body.name,
+    breed: _req.body.breed,
+    birthDate: _req.body.birthDate,
+  }
+  data.push(newPuppy);
+  await writeFile('../puppies.json', JSON.stringify(data));
+  return res.status(201).json(newPuppy);
+});
+
+app.put('/api/puppies/:id', async (_req: Request, res: Response) => {
+  const data = await readFileData('../puppies.json');
+  const puppy = data.find((p: tsPuppy) => p.id === Number(_req.params.id));
+  if (!puppy) {
+    return res.status(404).json({
+      message: 'NOT found',
+    });
+  }
+  
+  puppy.name = _req.body.name;
+  puppy.breed = _req.body.breed;
+  puppy.birthDate = _req.body.birthDate;
+
+  await writeFile('../puppies.json', JSON.stringify(data));
+  return res.status(204).json(puppy);
+});
+
+app.delete('/api/puppies/:id', async (_req: Request, res: Response) => {
+  const data = await readFileData('../puppies.json');
+  const puppy = data.findIndex((p: tsPuppy) => p.id === Number(_req.params.id));
+  
+  data.splice(puppy, 1);
+  await writeFile('../puppies.json', JSON.stringify(data));
+  return res.status(200).json({msg:"puppy is deleted"});
+
 });
 
 export default app;

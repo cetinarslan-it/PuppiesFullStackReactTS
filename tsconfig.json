@@ -20,5 +20,6 @@
     "forceConsistentCasingInFileNames": true,
     "useUnknownInCatchVariables": false,
     "allowSyntheticDefaultImports": true
-  }
+  },
+  "include": ["**/*.ts"],
 }
