@@ -76,6 +76,8 @@ app.put('/api/puppies/:id', async (_req: Request, res: Response) => {
   puppy.breed = _req.body.breed;
   puppy.birthDate = _req.body.birthDate;
 
+  console.log(data);
+
   await writeFile('../puppies.json', JSON.stringify(data));
   return res.status(204).json(puppy);
 });
