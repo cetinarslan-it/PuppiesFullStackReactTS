@@ -38,6 +38,7 @@ app.get('/api/puppies', async (_req: Request, res: Response) => {
   return res.status(200).json(json);
 });
 
+
 app.get('/api/puppie/:id', async (_req: Request, res: Response) => {
   const json = await readFileData('../puppies.json')
   const puppy = json.find((p: tsPuppy) => p.id === Number(_req.params.id))

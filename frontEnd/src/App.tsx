@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { act } from "react-dom/test-utils";
-import { idText } from "typescript";
 import "./App.css";
 import fetchRandomDoggo from "./utils/doggoBackground";
 
@@ -20,7 +18,7 @@ interface UpdateId {
 }
 
 
-export default function App() {
+export default function App () {
 
   const [name, setName] = useState<name[]>();
   const [updatePopUp, setUpdatePopUp] = useState<boolean>(false);
@@ -30,15 +28,6 @@ export default function App() {
   const [updateId, setUpdateId] = useState<UpdateId>();
 
 
-
-/* const nameCheck = () => {
-  const id = name?.find(data => data.id === activeId);
-  console.log(id, "this is a match");
-  console.log(activeId, "this is activeID");
-  return id;
-};
-
-nameCheck(); */
   
   const onClick = (id: number) => {
     setActiveId(id);
@@ -46,6 +35,28 @@ nameCheck(); */
 
   const addingPopUp = () => {
     setAddPopUp(!addPopUp);
+  }
+
+  const changeName = (e: any) => {
+    const value = e.currentTarget.value;
+    setUpdateId({name: value})
+  }
+
+  const changeBreed = (e: any) => {
+    const value = e.currentTarget.value;
+    setUpdateId({breed: value})
+  }
+
+  const changeBirthDate = (e: any) => {
+    const value = e.currentTarget.value;
+    setUpdateId({birthDate: value})
+  }
+
+  const doggoUrlArray = async ()  => {
+    const urlArray = [];
+    urlArray.push(await fetchRandomDoggo());
+    console.log(urlArray[0], "this is in doggoUrlArray");
+    return urlArray[0];
   }
 
   const updPopUp = () => {
@@ -66,8 +77,10 @@ nameCheck(); */
       const data = await fetch("http://localhost:3005/api/puppies");
       const jsonData = await data.json();
       setName(jsonData);
+      const url = (await fetchRandomDoggo());
       setRandomUrl(await fetchRandomDoggo());
-      console.log(await fetchRandomDoggo(), "this is useEffect");
+      console.log(url, "this is useEffect");
+      console.log(await doggoUrlArray());
     };
     api();
   }, []);
@@ -122,9 +135,9 @@ nameCheck(); */
       { 
         updatePopUp ? 
         <form onSubmit={updatePuppy} className="popUp">
-          <div>Name <input value={updateId?.name} name="name"></input></div>
-          <div>Breed <input value={updateId?.breed} name="breed"></input></div>
-          <div>Birth Date <input value={updateId?.birthDate} name="birthDate"></input></div>
+          <div className="puppyName">Name <input onChange={changeName} value={updateId?.name} name="name"></input></div>
+          <div>Breed <input onChange={changeBreed}value={updateId?.breed} name="breed"></input></div>
+          <div>Birth Date <input onChange={changeBirthDate} value={updateId?.birthDate} name="birthDate"></input></div>
           <button type="submit">Update</button>
           <button onClick={updPopUp}>Cancel</button>
         </form> : 
