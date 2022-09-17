@@ -1,7 +1,7 @@
-
 import { useState, useEffect } from "react";
 import "./App.css";
 import DogPng from "./image/dog.png";
+import PawPng from "./image/paw.png";
 import fetchRandomDoggo from "./utils/doggoBackground";
 
 
@@ -125,7 +125,9 @@ export default function App () {
     <div className="App">
         <header>
         <div className="header"> 
+          <img src={PawPng} alt="" width="100px" height="100px"></img>
           <p> Puppies</p>
+          <img src={PawPng} alt="" width="100px" height="100px"></img>
         </div>
       </header>
       { 
