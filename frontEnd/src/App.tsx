@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import DogPng from "./image/dog.png";
+import PawPng from "./image/paw.png";
 import fetchRandomDoggo from "./utils/doggoBackground";
 
 
@@ -121,59 +123,79 @@ export default function App () {
 
   return (
     <div className="App">
+        <header>
+        <div className="header"> 
+          <img src={PawPng} alt="" width="100px" height="100px"></img>
+          <p> Puppies</p>
+          <img src={PawPng} alt="" width="100px" height="100px"></img>
+        </div>
+      </header>
       { 
         addPopUp ? 
-        <form onSubmit={addPuppy} className="popUp">  
-          <div>Name <input name="name"></input></div>
-          <div>Breed <input name="breed"></input></div>
-          <div>Birth Date <input name="birthDate"></input></div>
-          <button type="submit">Add new puppy</button>
-          <button onClick={addingPopUp}>Cancel</button>
+        <form onSubmit={addPuppy} className="popUpBackground">
+        <div className="popUp"> 
+            <div>Name <input name="name"></input></div>
+            <div>Breed <input name="breed"></input></div>
+            <div>Birth Date <input name="birthDate"></input></div>
+            <div>
+              <button type="submit">Add new puppy</button>
+              <button onClick={addingPopUp}>Cancel</button>
+            </div>
+          </div>
         </form> : 
         <div></div>
       }
       { 
         updatePopUp ? 
-        <form onSubmit={updatePuppy} className="popUp">
-          <div className="puppyName">Name <input onChange={changeName} value={updateId?.name} name="name"></input></div>
-          <div>Breed <input onChange={changeBreed}value={updateId?.breed} name="breed"></input></div>
-          <div>Birth Date <input onChange={changeBirthDate} value={updateId?.birthDate} name="birthDate"></input></div>
-          <button type="submit">Update</button>
-          <button onClick={updPopUp}>Cancel</button>
+        <form onSubmit={updatePuppy} className="popUpBackground">
+          <div className="popUp">
+            <div className="puppyName">Name <input onChange={changeName} value={updateId?.name} name="name"></input></div>
+            <div>Breed <input onChange={changeBreed}value={updateId?.breed} name="breed"></input></div>
+            <div>Birth Date <input onChange={changeBirthDate} value={updateId?.birthDate} name="birthDate"></input></div>
+            <div>
+              <button type="submit">Update</button>
+              <button onClick={updPopUp}>Cancel</button>
+            </div>
+          </div>
         </form> : 
         <div></div>
       }
         
       <div className="page">
-        <p>Puppies</p>
         <div className="card-container">
-          <div className="card-container__cards" >
-            <h1>Add new puppy</h1>
-            <h1 onClick={addingPopUp}>+</h1>
+          <div className="card-container__cards-add" onClick={addingPopUp}>
+            <img src={DogPng} alt=""></img>
+            <h1>Add a new puppy</h1>
+            <p>+</p>
           </div>
           { 
             name ? 
             name.map((data) => {
               return (
-                <div style={{backgroundImage: randomUrl ? `url(${randomUrl})` : ''}} onClick={() => onClick(data.id)} className="card-container__cards" key={data.id}>
-                 
+                <div onClick={() => onClick(data.id)} className="card-container__cards-update" key={data.id}>                 
+                  <img className="card-container__cards-image" src={randomUrl? randomUrl : ""} alt="doggy"></img>
                   <h1>{data.name}</h1>
-                  <div className="puppyCard">
+                  <div className="puppyCard-text">
                     <div className={`panel${activeId === data.id ? "active" : ""}`}>
-                      Breed: {data.breed} <br />
-                      birthDate: {data.birthDate}
+                      Breed : {data.breed} <br/>
+                      Birth Date : {data.birthDate}
                     </div>
                     <div className={`panel${activeId === data.id ? "active" : ""}`}>
                       <button onClick={deleteCall}>Delete</button>
                       <button onClick={updPopUp}>Update</button>
                     </div>
-                  </div>
+                  </div>             
                 </div>
               )
             }) : "Loading"
           }
         </div>
       </div>
+      <footer>
+        <div className="footer"> 
+          <p> Copyright&copy; 2022 - All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
